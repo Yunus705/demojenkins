@@ -1,0 +1,56 @@
+#Manually Tomcat 9 Install Karein (Recommended)
+
+Step 1: Tomcat 9 Download Karein
+[ cd /tmp ]
+[ wget https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.80/bin/apache-tomcat-9.0.80.tar.gz ]
+
+Step 2: Extract aur Move Karein
+[ tar -xvzf apache-tomcat-9.0.80.tar.gz
+  sudo mv apache-tomcat-9.0.80 /opt/tomcat9 ]
+
+Step 3: Permissions Set Karein
+[ sudo chmod -R 755 /opt/tomcat9
+  sudo chown -R $USER:$USER /opt/tomcat9 ]
+
+Step 4: Tomcat Start Karein
+[ cd /opt/tomcat9/bin
+  chmod +x *.sh
+  ./startup.sh ]
+(Agar sab kuch sahi raha to Tomcat 9 run ho jayega aur aap http://<server-ip>:8080 pe access kar sakte hain.)
+
+#Tomcat 9 me Admin / Manager GUI enable karne ke liye user setup karna hoga. By default, Tomcat Manager aur Host Manager access restricted hota hai.
+
+Aapko 3 steps follow karne honge:
+Step 1: Tomcat Users Configure Karein
+
+Tomcat ke admin aur manager users add karne ke liye /opt/tomcat9/conf/tomcat-users.xml file edit karein:
+
+[ sudo nano /opt/tomcat9/conf/tomcat-users.xml ]
+Is file ke <tomcat-users> section me niche ka code add karein:
+
+[ <tomcat-users>
+    <role rolename="manager-gui"/>
+    <role rolename="manager-script"/>
+    <user username="admin" password="admin123" roles="manager-gui,manager-script"/>
+</tomcat-users> ]
+
+Step 2: Manager aur Host Manager Access Enable Karein
+Solution: Remote Access Enable Karna
+
+Step 1: context.xml file edit karein
+sudo nano /opt/tomcat9/webapps/manager/META-INF/context.xml
+👇 Is line ko comment out karein (या delete कर सकते हैं):
+
+[ <!-- <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+        allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> --> ]
+Save & Exit: Ctrl+X → Y → Enter
+
+Step 3: Tomcat Restart Karna
+[ cd /opt/tomcat9/bin
+  ./shutdown.sh
+  ./startup.sh ]
+
+Step 4: Jenkins aur Browser Access Test Karein
+Browser me Manager UI Access karein:
+
+[ http://<your-server-ip>:8080/manager/html ]
