@@ -1,0 +1,40 @@
+pipeline{
+    agent any
+    stages{
+        stage("run a cmd"){
+            steps{
+                sh 'pwd'
+            }
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
+                }
+            }
+        }
+        stage("run multiple cmds"){
+            steps{
+                sh '''pwd
+                    ls
+                    date
+                    cat'''
+            }
+        }
+    }
+    post{
+        always{
+            echo "========always========"
+        }
+        success{
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
+        }
+    }
+}
