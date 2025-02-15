@@ -1,4 +1,6 @@
 #Manually Tomcat 9 Install Karein (Recommended)
+first we need to install java
+[ apt install openjdk-17-jdk -y ]
 
 Step 1: Tomcat 9 Download Karein
 [ cd /tmp ]
